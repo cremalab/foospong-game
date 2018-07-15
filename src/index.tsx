@@ -3,10 +3,8 @@ import "./global.css";
 import Pong from "./pong/Pong.js";
 import Nes from "nes";
 
-console.dir(Pong);
-
 var pong = new Pong(document.getElementById("root"));
-const client = new Nes.Client("ws://10.100.52.166:8000");
+const client = new Nes.Client("ws://192.168.1.15:8000");
 
 const start = async () => {
   await client.connect();
@@ -23,32 +21,20 @@ const start = async () => {
     );
   };
 
-  client.subscribe("/player/1", handler("a"));
-  client.subscribe("/player/2", handler("b"));
-  client.subscribe("/player/3", handler("c"));
-  client.subscribe("/player/4", handler("d"));
+  Object.getOwnPropertyNames(pong.players).forEach((key, i) => {
+    console.log(`${key} -> ${i + 1}`);
+    client.subscribe(`/player/${i + 1}`, handler(key));
+  });
 };
 
 start();
 
-console.log(pong.players);
-
 // Add keyboard controls
-pong.players.a.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.b.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.c.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.d.addControls({
-  up: "up",
-  down: "down"
+Object.getOwnPropertyNames(pong.players).forEach(key => {
+  pong.players[key].addControls({
+    up: "up",
+    down: "down"
+  });
 });
 
 // function setAIBehaviorForPlayer(playerName: string) {

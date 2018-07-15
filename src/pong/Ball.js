@@ -145,21 +145,18 @@ Ball.prototype.checkCollisions = function () {
     if (this.checkWallsCollision()) {
         return true;
     }
-    var checked = 0;
     for (var key in this.game.players) {
 
         if (this.game.players.hasOwnProperty(key)) {
             const player = this.game.players[key];
             const xdist = Math.abs(player.graphics.position.x - this.graphics.position.x);
             if (xdist < 100) {
-                checked++;
                 if (this.checkPlayerCollision(player)) {
                     return true;
                 }
             }
         }
     }
-    console.log('checked ' + checked)
     return false;
 };
 

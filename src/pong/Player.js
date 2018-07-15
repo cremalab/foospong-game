@@ -7,7 +7,7 @@ var pixi = require('pixi'),
     EventEmitter = require('event-emitter'),
     parseOctal = require('./utils').parseOctal,
     defaults = {
-        barHeight: 100,
+        barHeight: 80,
         spaceHeight: 140,
         controls: {
             'up': null,
@@ -126,7 +126,7 @@ Player.prototype.screenX = function () {
     var stageWidth = this.game.renderer.width,
         spacing = config.LINES_DISTANCE + config.PLAYER_MARGIN;
 
-    return spacing + ((stageWidth - spacing) * this.amtRight);
+    return ((stageWidth - spacing * 0.5) * this.amtRight);
 };
 
 Player.prototype.screenY = function () {

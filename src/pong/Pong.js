@@ -30,7 +30,6 @@ Pong = function (wrapper) {
     this.loop = new Loop();
     this.balls = [];
     this.arena = new Arena(this);
-    this.startScreen = new StartScreen(this);
     this.pauseScreen = new PauseScreen(this);
     this.endScreen = new MessageScreen(this);
     this.hits = 0;
@@ -42,33 +41,47 @@ Pong = function (wrapper) {
 
     this.players = {
         a: new Player(this, {
-            amtRight: 0.07,
             team: 'a',
-            hasScoreDisplay: true,
-            barHeight: 160,
-            speed: 600
+            numPaddles: 1,
+            speed: 800
         }),
         b: new Player(this, {
-            amtRight: 0.3,
-            team: 'b',
-            hasScoreDisplay: true, 
-            numPaddles: 3,
-            speed: 300
-        }),
-        c: new Player(this, {
-            amtRight: 0.67,
             team: 'a',
-            numPaddles: 3,
-            speed: 300
-        }),
-        d: new Player(this, {
-            amtRight: 0.9,
-            team: 'b',
-            barHeight: 160,
+            hasScoreDisplay: true,
+            numPaddles: 2,
+            spaceHeight: 250,
             speed: 600
         }),
+        c: new Player(this, {
+            team: 'b',
+            hasScoreDisplay: true,
+            numPaddles: 3,
+            spaceHeight: 180,
+            speed: 400
+        }), 
+        d: new Player(this, {
+            team: 'a',
+            numPaddles: 3,
+            spaceHeight: 180,
+            speed: 400
+        }),
+        e: new Player(this, {
+            team: 'b',
+            numPaddles: 2,
+            spaceHeight: 250,
+            speed: 600
+        }),
+        f: new Player(this, {
+            team: 'b',
+            numPaddles: 1,
+            speed: 800
+        }),
     };
-
+    const playerKeys = Object.getOwnPropertyNames(this.players);
+    playerKeys.forEach((p, i) => {  
+        this.players[p].amtRight = i / playerKeys.length + (1 / (playerKeys.length * 2));
+    });
+    this.startScreen = new StartScreen(this);
     this.resize();
     this.bind();
     this.startScreen.show();
