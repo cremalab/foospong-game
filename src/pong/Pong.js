@@ -17,7 +17,7 @@ var pixi = require('pixi'),
         image: null,
         size: config.BALL_SIZE,
         speed: config.BALL_SPEED,
-        velocity: [ config.BALL_SPEED, config.BALL_SPEED ]
+        velocity: [config.BALL_SPEED, config.BALL_SPEED]
     },
     Pong;
 
@@ -41,10 +41,32 @@ Pong = function (wrapper) {
     this.started = false;
 
     this.players = {
-        a: new Player(this, { amtRight: 0.07, team: 'a', hasScoreDisplay: true}),
-        b: new Player(this, { amtRight: 0.3, team: 'b', hasScoreDisplay: true}),
-        c: new Player(this, { amtRight: 0.67, team: 'a' }),
-        d: new Player(this, { amtRight: 0.9, team: 'b' }),
+        a: new Player(this, {
+            amtRight: 0.07,
+            team: 'a',
+            hasScoreDisplay: true,
+            barHeight: 160,
+            speed: 600
+        }),
+        b: new Player(this, {
+            amtRight: 0.3,
+            team: 'b',
+            hasScoreDisplay: true, 
+            numPaddles: 3,
+            speed: 300
+        }),
+        c: new Player(this, {
+            amtRight: 0.67,
+            team: 'a',
+            numPaddles: 3,
+            speed: 300
+        }),
+        d: new Player(this, {
+            amtRight: 0.9,
+            team: 'b',
+            barHeight: 160,
+            speed: 600
+        }),
     };
 
     this.resize();

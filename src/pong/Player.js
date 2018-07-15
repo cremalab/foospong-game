@@ -7,7 +7,8 @@ var pixi = require('pixi'),
     EventEmitter = require('event-emitter'),
     parseOctal = require('./utils').parseOctal,
     defaults = {
-        barHeight: 150,
+        barHeight: 100,
+        spaceHeight: 140,
         controls: {
             'up': null,
             'down': null
@@ -24,11 +25,18 @@ Player = function (game, options) {
     this.amtRight = options.amtRight;
     this.team = options.team;
     this.width = config.BARS_WIDTH;
-    this.height = options.height || defaults.barHeight;
+    this.barHeight = options.barHeight || defaults.barHeight;
+    this.spaceHeight = options.spaceHeight || defaults.spaceHeight;
+    this.numPaddles = options.numPaddles || 1;
+    // full height of the set of paddles
+    this.height = this.numPaddles * this.barHeight + (this.numPaddles - 1) * this.spaceHeight;
     this.speed = options.speed || defaults.speed;
     this.lastUpdate = new Date().getTime();
     this.keyboard = new Keyboard(options.controls || defaults.controls);
     this.y = 0;
+    this.yOffsets = new Array(this.numPaddles).fill(0).map((_, i) => {
+        return i * (this.barHeight + this.spaceHeight);
+    });
     this.yVelocity = 0;
     this.score = 0;
     if (options.hasScoreDisplay)
@@ -73,9 +81,11 @@ Player.prototype.bind = function () {
 };
 
 Player.prototype.render = function () {
-    this.graphics.beginFill(this.color);
-    this.graphics.drawRect(0, 0, this.width, this.height);
-    this.graphics.endFill();
+    this.yOffsets.forEach(offset => {
+        this.graphics.beginFill(this.color);
+        this.graphics.drawRect(0, 0 + offset, this.width, this.barHeight);
+        this.graphics.endFill();
+    })
 };
 
 Player.prototype.update = function () {
@@ -141,6 +151,16 @@ Player.prototype.getBoundingBox = function () {
         { x: this.screenX(), y: this.screenY() },
         { width: this.width, height: this.height }
     );
+};
+
+Player.prototype.getPaddleBoundingBoxes = function () {
+    return this.yOffsets.map(offset => {
+        return new geometry.Rect(
+            { x: this.screenX(), y: this.screenY() + offset },
+            { width: this.width, height: this.barHeight }
+        );
+    })
+
 };
 
 Player.prototype.restart = function () {

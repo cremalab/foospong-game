@@ -28,7 +28,10 @@ ScoreDisplay.prototype.setTextStyle = function (style) {
 };
 
 ScoreDisplay.prototype.render = function () {
-    this.text = new pixi.Text(this.player.score + '', config.TEXT_STYLE);
+    const team_style = this.player.team === 'a'
+        ? config.TEXT_STYLE_TEAM_A
+        : config.TEXT_STYLE_TEAM_B;
+    this.text = new pixi.Text(this.player.score + '', team_style);
 
     if (this.player.side === 'a') {
         this.text.anchor.x = 1;

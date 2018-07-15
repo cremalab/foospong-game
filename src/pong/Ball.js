@@ -145,15 +145,21 @@ Ball.prototype.checkCollisions = function () {
     if (this.checkWallsCollision()) {
         return true;
     }
-
+    var checked = 0;
     for (var key in this.game.players) {
+
         if (this.game.players.hasOwnProperty(key)) {
-            if (this.checkPlayerCollision(this.game.players[key])) {
-                return true;
+            const player = this.game.players[key];
+            const xdist = Math.abs(player.graphics.position.x - this.graphics.position.x);
+            if (xdist < 100) {
+                checked++;
+                if (this.checkPlayerCollision(player)) {
+                    return true;
+                }
             }
         }
     }
-
+    console.log('checked ' + checked)
     return false;
 };
 
@@ -177,11 +183,8 @@ Ball.prototype.checkWallsCollision = function () {
     return true;
 };
 
-Ball.prototype.checkPlayerCollision = function (player) {
-    if (this.playerCanBounce === false ) return;
-    var BB = this.getBoundingBox(),
-        targetBB = player.getBoundingBox();
-    if (BB.intersectsRect(targetBB)) {
+Ball.prototype.checkSinglePaddleCollision = function (thisBB, targetBB, player) {
+    if (thisBB.intersectsRect(targetBB)) {
         // allow player's y velocity to affect ball's y velocity
         const addY = config.BALL_PADDLE_VELOCITY_ADD * player.yVelocity;
         player.emit('bounce', [this]);
@@ -192,9 +195,27 @@ Ball.prototype.checkPlayerCollision = function (player) {
         } else {
             this.bounce(-1, 0, addY);
         }
+        return true;
+    }
+    return false;
+};
+
+Ball.prototype.checkPlayerCollision = function (player) {
+    if (this.playerCanBounce === false) return;
+    var thisBB = this.getBoundingBox(),
+        paddleBBs = player.getPaddleBoundingBoxes(),
+        bounced = false;
+    // check bounce for each paddle
+    paddleBBs.forEach(paddleBB => {
+        if (!bounced)
+            if (this.checkSinglePaddleCollision(thisBB, paddleBB, player)) {
+                bounced = true;
+            }
+    })
+    if (bounced) {
         this.playerCanBounce = false;
         // allow bounces again in a few ms. (to avoid trapping ball in paddle)
-        setTimeout(() => {this.playerCanBounce = true;}, 200);
+        setTimeout(() => { this.playerCanBounce = true; }, 200);
         return true;
     }
 };

@@ -13,6 +13,16 @@ module.exports = {
         fill: '#eee',
         align: 'center'
     },
+    TEXT_STYLE_TEAM_A: {
+        font: '60px Helvetica, Arial, sans-serif',
+        fill: '#fc2828',
+        align: 'center'
+    },
+    TEXT_STYLE_TEAM_B: {
+        font: '60px Helvetica, Arial, sans-serif',
+        fill: '#7ad9ff',
+        align: 'center'
+    },
     LINES_COLOR: 0xEEEEEE,
     BALL_COLOR: 0xEEEEEE,
     BALL_SIZE: 15,
