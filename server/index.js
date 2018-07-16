@@ -22,23 +22,31 @@ const init = async () => {
     }
   });
 
-  server.subscription("/player/{playerNumber}", {
-    onSubscribe: () => {
-      console.log("player subscribed!");
-    }
-  });
+  server.subscription("/player/{playerNumber}");
+
+  server.subscription("/startGame");
 
   server.route({
     method: ["PUT", "POST"],
     path: "/player/{playerNumber}",
     config: {
       handler: (request, h) => {
-        console.log("player ", request.params.playerNumber, request.payload);
         server.publish(
           `/player/${request.params.playerNumber}`,
           request.payload
         );
         return "Player Update";
+      }
+    }
+  });
+
+  server.route({
+    method: ["PUT", "POST"],
+    path: "/startGame",
+    config: {
+      handler: (request, h) => {
+        server.publish(`/startGame`, {});
+        return "Start Game";
       }
     }
   });

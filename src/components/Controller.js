@@ -58,6 +58,7 @@ class Controller extends React.Component {
             <option value="3">3</option>
             <option value="4">4</option>
           </PlayerSelect>
+          <button onClick={actions.startGame}>Start Game</button>
         </OuterPlayer>
         {state.playerNumber && (
           <div>

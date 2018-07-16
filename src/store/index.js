@@ -25,6 +25,13 @@ class Store extends Component {
       this.setState({
         playerNumber
       });
+    },
+    startGame: () => {
+      console.log("here!!! start!!");
+      this.client.request({
+        method: "POST",
+        path: `/startGame`
+      });
     }
   };
 

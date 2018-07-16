@@ -18,6 +18,10 @@ class PongGame extends React.Component {
     client.subscribe("/player/2", this.handler("b"));
     client.subscribe("/player/3", this.handler("c"));
     client.subscribe("/player/4", this.handler("d"));
+    client.subscribe("/startGame", () => {
+      console.log("start!!!!");
+      this.pong.start();
+    });
   }
 
   handler = playerNumber => (update, flags) => {
