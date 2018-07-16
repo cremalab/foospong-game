@@ -13,7 +13,6 @@ class Store extends Component {
   actions = {
     sendController: event => () => {
       // send websocket event
-      console.log("sending " + event, this.client, this.state.playerNumber);
       this.client.request({
         method: "POST",
         path: `/player/${this.state.playerNumber}`,
@@ -56,5 +55,21 @@ class Store extends Component {
     );
   }
 }
+
+export const connect = options => PassedComponent => {
+  const Connect = () => (
+    <Consumer>
+      {({ actions, client, state }) => (
+        <PassedComponent
+          {...this.props}
+          actions={actions}
+          client={client}
+          state={state}
+        />
+      )}
+    </Consumer>
+  );
+  return Connect;
+};
 
 export { Consumer, Store };
