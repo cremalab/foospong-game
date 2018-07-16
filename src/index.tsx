@@ -1,55 +1,54 @@
 import "./global.css";
-// import Nes from 'nes';
-import Pong from "./pong/Pong.js";
-import Nes from "nes";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
 
-console.dir(Pong);
+ReactDOM.render(<App />, document.getElementById("root"));
 
-var pong = new Pong(document.getElementById("root"));
-const client = new Nes.Client("ws://10.100.52.166:8000");
+// const client = new Nes.Client("ws://10.100.52.166:8000");
 
-const start = async () => {
-  await client.connect();
-  const handler = playerNumber => (update, flags) => {
-    // update -> { id: 5, status: 'complete' }
-    // Second publish is not received (doesn't match)
-    pong.players[playerNumber].keyboard.setKeyState(
-      "up",
-      update.event === "up_press"
-    );
-    pong.players[playerNumber].keyboard.setKeyState(
-      "down",
-      update.event === "down_press"
-    );
-  };
+// const start = async () => {
+//   await client.connect();
+//   const handler = playerNumber => (update, flags) => {
+//     // update -> { id: 5, status: 'complete' }
+//     // Second publish is not received (doesn't match)
+//     pong.players[playerNumber].keyboard.setKeyState(
+//       "up",
+//       update.event === "up_press"
+//     );
+//     pong.players[playerNumber].keyboard.setKeyState(
+//       "down",
+//       update.event === "down_press"
+//     );
+//   };
 
-  client.subscribe("/player/1", handler("a"));
-  client.subscribe("/player/2", handler("b"));
-  client.subscribe("/player/3", handler("c"));
-  client.subscribe("/player/4", handler("d"));
-};
+//   client.subscribe("/player/1", handler("a"));
+//   client.subscribe("/player/2", handler("b"));
+//   client.subscribe("/player/3", handler("c"));
+//   client.subscribe("/player/4", handler("d"));
+// };
 
-start();
+// start();
 
-console.log(pong.players);
+// console.log(pong.players);
 
-// Add keyboard controls
-pong.players.a.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.b.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.c.addControls({
-  up: "up",
-  down: "down"
-});
-pong.players.d.addControls({
-  up: "up",
-  down: "down"
-});
+// // Add keyboard controls
+// pong.players.a.addControls({
+//   up: "up",
+//   down: "down"
+// });
+// pong.players.b.addControls({
+//   up: "up",
+//   down: "down"
+// });
+// pong.players.c.addControls({
+//   up: "up",
+//   down: "down"
+// });
+// pong.players.d.addControls({
+//   up: "up",
+//   down: "down"
+// });
 
 // function setAIBehaviorForPlayer(playerName: string) {
 //   // Add behaviour for player B
