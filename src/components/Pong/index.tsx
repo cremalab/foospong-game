@@ -1,13 +1,34 @@
 import React from "react";
-import Pong from "../pong/Pong.js";
-import { connect } from "../store";
+import Pong from "../../pong/Pong.js";
+import { connect, ConnectProps } from "../../store";
 
-class PongGame extends React.Component {
+interface Controls {
+  up: string;
+  down: string;
+}
+
+interface PongPlayer {
+  [key: string]: {
+    addControls: (controls: Controls) => void;
+    keyboard: {
+      setKeyState: (key: string, keyPressed: boolean) => void;
+    };
+  };
+}
+interface Pong {
+  players: PongPlayer;
+  start: () => void;
+}
+
+class PongGame extends React.Component<ConnectProps> {
+  pong: Pong;
+  rootDiv: HTMLDivElement | null;
+
   componentDidMount() {
     const { client } = this.props;
     this.pong = new Pong(this.rootDiv);
 
-    const controls = { up: "up", down: "down" };
+    const controls: Controls = { up: "up", down: "down" };
 
     this.pong.players.a.addControls(controls);
     this.pong.players.b.addControls(controls);
@@ -19,7 +40,6 @@ class PongGame extends React.Component {
     client.subscribe("/player/3", this.handler("c"));
     client.subscribe("/player/4", this.handler("d"));
     client.subscribe("/startGame", () => {
-      console.log("start!!!!");
       this.pong.start();
     });
   }
@@ -33,10 +53,9 @@ class PongGame extends React.Component {
       "down",
       update.event === "down_press"
     );
-  };
+  }
 
-  render = () => {
-    const { state, client } = this.props;
+  render() {
     return (
       <div
         ref={c => (this.rootDiv = c)}
@@ -47,7 +66,7 @@ class PongGame extends React.Component {
         }}
       />
     );
-  };
+  }
 }
 
 export default connect()(PongGame);

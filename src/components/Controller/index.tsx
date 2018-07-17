@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "../store";
-import IconArrow from "./IconArrow";
+import { connect, ConnectProps } from "../../store";
+import IconArrow from "../IconArrow";
 
 const OuterPlayer = styled.div`
   display: flex;
@@ -39,8 +39,10 @@ const IconArrowDown = styled(IconArrow)`
   transform: rotate(180deg);
 `;
 
-class Controller extends React.Component {
-  render = () => {
+interface Props extends ConnectProps {}
+
+class Controller extends React.Component<Props> {
+  render() {
     const { actions, state } = this.props;
     return (
       <div>
@@ -82,7 +84,7 @@ class Controller extends React.Component {
         )}
       </div>
     );
-  };
+  }
 }
 
 export default connect()(Controller);

@@ -1,38 +1,40 @@
 import React, { Component, createContext } from "react";
 import Nes from "nes";
+import connect, { ConnectProps } from "./connect";
 
-const Context = createContext();
+const Context = createContext({});
 
 const { Provider, Consumer } = Context;
 
-class Store extends Component {
-  state = {
+export interface State {
+  readonly connected: boolean;
+  readonly playerNumber?: string;
+}
+
+class Store extends Component<any, State> {
+  readonly state: State = {
     connected: false
   };
 
   actions = {
-    sendController: event => () => {
-      // send websocket event
+    sendController: event => () =>
       this.client.request({
         method: "POST",
         path: `/player/${this.state.playerNumber}`,
         payload: {
           event
         }
-      });
-    },
-    setPlayer: playerNumber => {
+      }),
+    setPlayer: (playerNumber: string) => {
       this.setState({
         playerNumber
       });
     },
-    startGame: () => {
-      console.log("here!!! start!!");
+    startGame: () =>
       this.client.request({
         method: "POST",
         path: `/startGame`
-      });
-    }
+      })
   };
 
   client = new Nes.Client(process.env.REACT_APP_SOCKET_URL);
@@ -63,20 +65,4 @@ class Store extends Component {
   }
 }
 
-export const connect = options => PassedComponent => {
-  const Connect = () => (
-    <Consumer>
-      {({ actions, client, state }) => (
-        <PassedComponent
-          {...this.props}
-          actions={actions}
-          client={client}
-          state={state}
-        />
-      )}
-    </Consumer>
-  );
-  return Connect;
-};
-
-export { Consumer, Store };
+export { Consumer, Store, connect, ConnectProps };

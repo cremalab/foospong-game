@@ -1,11 +1,11 @@
-import React from "react";
-import Pong from "./Pong";
-import Controller from "./Controller";
+import React, { Component } from "react";
+import Pong from "../Pong";
+import Controller from "../Controller";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Store } from "../store";
+import { Store } from "../../store";
 
-class App extends React.Component {
-  render = () => {
+class App extends Component<any, any> {
+  render() {
     return (
       <Store>
         <Router>
@@ -16,7 +16,7 @@ class App extends React.Component {
         </Router>
       </Store>
     );
-  };
+  }
 }
 
 export default App;
