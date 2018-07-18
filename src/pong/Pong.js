@@ -58,7 +58,7 @@ Pong = function (wrapper) {
             numPaddles: 3,
             spaceHeight: 180,
             speed: 400
-        }), 
+        }),
         d: new Player(this, {
             team: 'a',
             numPaddles: 3,
@@ -77,8 +77,9 @@ Pong = function (wrapper) {
             speed: 800
         }),
     };
+    //generate horizontal positions of players
     const playerKeys = Object.getOwnPropertyNames(this.players);
-    playerKeys.forEach((p, i) => {  
+    playerKeys.forEach((p, i) => {
         this.players[p].amtRight = i / playerKeys.length + (1 / (playerKeys.length * 2));
     });
     this.startScreen = new StartScreen(this);

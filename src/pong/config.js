@@ -8,7 +8,7 @@ module.exports = {
     TEAM_A_COLOR: 0x2ba9ff,
     TEAM_B_COLOR: 0xff3838,
 	SCORES_MARGIN: { x: 40, y: 30 },
-	TEXT_STYLE: {
+    TEXT_STYLE: {
         font: '60px Helvetica, Arial, sans-serif',
         fill: '#eee',
         align: 'center'
@@ -26,6 +26,6 @@ module.exports = {
     LINES_COLOR: 0xEEEEEE,
     BALL_COLOR: 0xEEEEEE,
     BALL_SIZE: 10,
-    BALL_SPEED: 20,
+    BALL_SPEED: 18,
     BALL_PADDLE_VELOCITY_ADD: 4,
 };
