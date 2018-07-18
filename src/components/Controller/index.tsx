@@ -59,6 +59,8 @@ class Controller extends React.Component<Props> {
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
           </PlayerSelect>
           <button onClick={actions.startGame}>Start Game</button>
         </OuterPlayer>

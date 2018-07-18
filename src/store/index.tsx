@@ -37,7 +37,7 @@ class Store extends Component<any, State> {
       })
   };
 
-  client = new Nes.Client(process.env.REACT_APP_SOCKET_URL);
+  client = new Nes.Client(`ws://${window.location.hostname}:8000/`);
 
   componentDidMount() {
     this.client

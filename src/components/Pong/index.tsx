@@ -30,15 +30,12 @@ class PongGame extends React.Component<ConnectProps> {
 
     const controls: Controls = { up: "up", down: "down" };
 
-    this.pong.players.a.addControls(controls);
-    this.pong.players.b.addControls(controls);
-    this.pong.players.c.addControls(controls);
-    this.pong.players.d.addControls(controls);
+    // add controls and subscribe to each player's channel
+    Object.getOwnPropertyNames(this.pong.players).forEach((key, i) => {
+      this.pong.players[key].addControls(controls);
+      client.subscribe(`/player/${i + 1}`, this.handler(key));
+    });
 
-    client.subscribe("/player/1", this.handler("a"));
-    client.subscribe("/player/2", this.handler("b"));
-    client.subscribe("/player/3", this.handler("c"));
-    client.subscribe("/player/4", this.handler("d"));
     client.subscribe("/startGame", () => {
       this.pong.start();
     });
