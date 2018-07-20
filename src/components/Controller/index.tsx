@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import config from "../../pong/config";
 import { connect, ConnectProps } from "../../store";
 import IconArrow from "../IconArrow";
 
@@ -39,7 +40,7 @@ const IconArrowDown = styled(IconArrow)`
   transform: rotate(180deg);
 `;
 
-interface Props extends ConnectProps {}
+interface Props extends ConnectProps { }
 
 class Controller extends React.Component<Props> {
   render() {
@@ -55,12 +56,9 @@ class Controller extends React.Component<Props> {
             value={state.playerNumber}
           >
             <option value="">...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
+            {Object.getOwnPropertyNames(config.players).map(
+              (_, i) => <option value={`${i + 1}`} key={i}>{i + 1}</option>
+            )}
           </PlayerSelect>
           <button onClick={actions.startGame}>Start Game</button>
         </OuterPlayer>

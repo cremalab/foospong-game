@@ -48,7 +48,7 @@ Pong = function (wrapper) {
             speed: 700
         }),
     };
-    config.players.getOwnPropertyNames().forEach(playerKey => {
+    Object.getOwnPropertyNames(config.players).forEach(playerKey => {
         const playerOptions = config.players[playerKey];
         this.players[playerKey] = new Player(this, playerOptions);
     })
