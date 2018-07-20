@@ -39,15 +39,7 @@ Pong = function (wrapper) {
     this.ballSettings = extend({}, ballDefaults);
     this.started = false;
 
-    this.players = {
-        a: new Player(this, {
-            team: 'a',
-            hasScoreDisplay: true,
-            numPaddles: 2,
-            spaceHeight: 250,
-            speed: 700
-        }),
-    };
+    this.players = {};
     Object.getOwnPropertyNames(config.players).forEach(playerKey => {
         const playerOptions = config.players[playerKey];
         this.players[playerKey] = new Player(this, playerOptions);
