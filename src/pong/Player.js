@@ -164,7 +164,7 @@ return this.yOffsets.map(offset => {
 };
 
 Player.prototype.restart = function () {
-this.y = 0;
+// this.y = 0;
 this.update();
 };
 
