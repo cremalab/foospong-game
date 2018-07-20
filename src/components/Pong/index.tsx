@@ -61,7 +61,9 @@ class PongGame extends React.Component<ConnectProps> {
           height: "100vh",
           backgroundColor: "#444"
         }}
-      />
+      >
+        <h2 style={{ fontSize: 30, color: "#FFF", fontFamily: "sans-serif", position: "absolute", left: "50px", opacity: 0.7}}>FOOS PONG</h2>
+      </div>
     );
   }
 }
