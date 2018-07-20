@@ -42,41 +42,16 @@ Pong = function (wrapper) {
     this.players = {
         a: new Player(this, {
             team: 'a',
-            numPaddles: 1,
-            speed: 800
-        }),
-        b: new Player(this, {
-            team: 'a',
             hasScoreDisplay: true,
             numPaddles: 2,
             spaceHeight: 250,
-            speed: 600
-        }),
-        c: new Player(this, {
-            team: 'b',
-            hasScoreDisplay: true,
-            numPaddles: 3,
-            spaceHeight: 180,
-            speed: 400
-        }),
-        d: new Player(this, {
-            team: 'a',
-            numPaddles: 3,
-            spaceHeight: 180,
-            speed: 400
-        }),
-        e: new Player(this, {
-            team: 'b',
-            numPaddles: 2,
-            spaceHeight: 250,
-            speed: 600
-        }),
-        f: new Player(this, {
-            team: 'b',
-            numPaddles: 1,
-            speed: 800
+            speed: 700
         }),
     };
+    config.players.getOwnPropertyNames().forEach(playerKey => {
+        const playerOptions = config.players[playerKey];
+        this.players[playerKey] = new Player(this, playerOptions);
+    })
     //generate horizontal positions of players
     const playerKeys = Object.getOwnPropertyNames(this.players);
     playerKeys.forEach((p, i) => {
