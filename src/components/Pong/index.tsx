@@ -1,7 +1,8 @@
 import React from "react";
-import Pong from "../../pong/Pong.js";
+import Pong from "../../lib/pong/Pong.js";
 import { connect, ConnectProps } from "../../store";
 import styled from "styled-components";
+import playSound from "../../lib/playSound";
 
 const GameTitle = styled.h2`
   font-size: 30;
@@ -17,26 +18,6 @@ const GameStage = styled.div`
   height: 100vh;
   backgroundcolor: #444;
 `;
-
-interface Controls {
-  up: string;
-  down: string;
-}
-
-interface PongPlayer {
-  [key: string]: {
-    addControls: (controls: Controls) => void;
-    keyboard: {
-      setKeyState: (key: string, keyPressed: boolean) => void;
-    };
-    move: (int: number) => void;
-  };
-}
-interface Pong {
-  players: PongPlayer;
-  start: () => void;
-  on: (event: string, cb: (event: Event) => void) => void;
-}
 
 class PongGame extends React.Component<ConnectProps> {
   pong: Pong;
@@ -58,13 +39,9 @@ class PongGame extends React.Component<ConnectProps> {
       this.pong.start();
     });
 
-    this.pong.on("bounce", () => {
-      console.log("bounce");
-    });
-
-    this.pong.on("hit", () => {
-      console.log("hit");
-    });
+    this.pong.on("bounce", () => playSound(246.94));
+    this.pong.on("hit", () => playSound(493.88));
+    this.pong.on("point", () => playSound(90.61, 400));
   }
 
   handler = playerNumber => (update, flags) => {
