@@ -1,6 +1,5 @@
-const context = new AudioContext();
-
 const play = (frequencyValue: number, timeout: number = 10) => {
+  const context = new AudioContext();
   const fade = 0.2;
   const oscillator = context.createOscillator();
   const gainNode = context.createGain();
