@@ -10,8 +10,8 @@ class App extends Component<any, any> {
       <Store>
         <Router>
           <div>
-            <Route exact path="/" component={Pong} />
-            <Route exact path="/controller" component={Controller} />
+            <Route exact path="/play" component={Pong} />
+            <Route exact path="/" component={Controller} />
           </div>
         </Router>
       </Store>

@@ -1,6 +1,22 @@
 import React from "react";
 import Pong from "../../pong/Pong.js";
 import { connect, ConnectProps } from "../../store";
+import styled from "styled-components";
+
+const GameTitle = styled.h2`
+  font-size: 30;
+  color: #fff;
+  font-family: sans-serif;
+  position: absolute;
+  left: 50px;
+  opacity: 0.7;
+`;
+
+const GameStage = styled.div`
+  width: 100vw;
+  height: 100vh;
+  backgroundcolor: #444;
+`;
 
 interface Controls {
   up: string;
@@ -13,11 +29,13 @@ interface PongPlayer {
     keyboard: {
       setKeyState: (key: string, keyPressed: boolean) => void;
     };
+    move: (int: number) => void;
   };
 }
 interface Pong {
   players: PongPlayer;
   start: () => void;
+  on: (event: string, cb: (event: Event) => void) => void;
 }
 
 class PongGame extends React.Component<ConnectProps> {
@@ -39,6 +57,14 @@ class PongGame extends React.Component<ConnectProps> {
     client.subscribe("/startGame", () => {
       this.pong.start();
     });
+
+    this.pong.on("bounce", () => {
+      console.log("bounce");
+    });
+
+    this.pong.on("hit", () => {
+      console.log("hit");
+    });
   }
 
   handler = playerNumber => (update, flags) => {
@@ -54,16 +80,9 @@ class PongGame extends React.Component<ConnectProps> {
 
   render() {
     return (
-      <div
-        ref={c => (this.rootDiv = c)}
-        style={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "#444"
-        }}
-      >
-        <h2 style={{ fontSize: 30, color: "#FFF", fontFamily: "sans-serif", position: "absolute", left: "50px", opacity: 0.7}}>FOOS PONG</h2>
-      </div>
+      <GameStage innerRef={c => (this.rootDiv = c)}>
+        <GameTitle>FOOS PONG</GameTitle>
+      </GameStage>
     );
   }
 }
