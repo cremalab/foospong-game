@@ -16,4 +16,5 @@ interface Pong {
   players: PongPlayer;
   start: () => void;
   on: (event: string, cb: (event: Event) => void) => void;
+  reset: () => void;
 }

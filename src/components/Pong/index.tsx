@@ -16,7 +16,7 @@ const GameTitle = styled.h2`
 const GameStage = styled.div`
   width: 100vw;
   height: 100vh;
-  backgroundcolor: #444;
+  backgroundcolor: #eee;
 `;
 
 class PongGame extends React.Component<ConnectProps> {
@@ -36,6 +36,9 @@ class PongGame extends React.Component<ConnectProps> {
     });
 
     client.subscribe("/startGame", () => {
+      if (this.pong.reset) {
+        this.pong.reset();
+      }
       this.pong.start();
     });
 

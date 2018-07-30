@@ -13,10 +13,9 @@ const OuterPlayer = styled.div`
 `;
 
 const PlayerSelect = styled.select`
-  width: 20vw;
   margin-left: 10px;
   height: 30px;
-  font-size: 25px;
+  font-size: 18px;
 `;
 
 const Button = styled.button`
@@ -48,17 +47,16 @@ class Controller extends React.Component<Props> {
     return (
       <div>
         <OuterPlayer>
-          <label>Player #</label>
           <PlayerSelect
             onChange={e => {
               actions.setPlayer(e.target.selectedIndex);
             }}
             value={state.playerNumber}
           >
-            <option value="">...</option>
+            <option value="">Select Player #</option>
             {Object.getOwnPropertyNames(config.players).map((_, i) => (
               <option value={`${i + 1}`} key={i}>
-                {i + 1}
+                Player #{i + 1}
               </option>
             ))}
           </PlayerSelect>
