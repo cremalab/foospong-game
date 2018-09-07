@@ -44,9 +44,13 @@ const IconArrowDown = styled(IconArrow)`
   transform: rotate(180deg);
 `;
 
-interface Props extends ConnectProps {}
+interface Props extends ConnectProps { }
 
-class Controller extends React.Component<Props> {
+interface State {
+  upPressed: boolean;
+  downPressed: boolean;
+}
+class Controller extends React.Component<Props, State> {
   handleIsPlayerSelected = (playerNumber: number) => {
     const { state } = this.props;
     return (
@@ -54,8 +58,78 @@ class Controller extends React.Component<Props> {
     );
   }
 
+  constructor(p: Props) {
+    super(p);
+    this.state = {
+      upPressed: false,
+      downPressed: false,
+    };
+    this.handlePressDown = this.handlePressDown.bind(this);
+    this.handlePressUp = this.handlePressUp.bind(this);
+    this.handleReleaseDown = this.handleReleaseDown.bind(this);
+    this.handleReleaseUp = this.handleReleaseUp.bind(this);
+  }
+
+  handlePressUp() {
+    const { upPressed, downPressed } = this.state;
+    const { actions } = this.props;
+    if (downPressed && upPressed) {
+      actions.sendController("down_release")();
+    }
+    if (downPressed && !upPressed) {
+      // actions.sendController("down_release");
+      actions.sendController("up_press")();
+    }
+    if (!downPressed && !upPressed) {
+      actions.sendController("up_press")();
+    }
+    this.setState({ upPressed: true });
+  }
+
+  handlePressDown() {
+    const { upPressed, downPressed } = this.state;
+    const { actions } = this.props;
+    if (downPressed && upPressed) {
+      actions.sendController("up_release")();
+    }
+    if (!downPressed && upPressed) {
+      // actions.sendController("up_release");
+      actions.sendController("down_press")();
+    }
+    if (!downPressed && !upPressed) {
+      actions.sendController("down_press")();
+    }
+    this.setState({ downPressed: true });
+  }
+
+  handleReleaseUp() {
+    const { upPressed, downPressed } = this.state;
+    const { actions } = this.props;
+    if (downPressed && upPressed) {
+      // actions.sendController("up_release");
+      actions.sendController("down_press")();
+    }
+    if (!downPressed && upPressed) {
+      actions.sendController("up_release")();
+    }
+    this.setState({ upPressed: false });
+  }
+
+  handleReleaseDown() {
+    const { upPressed, downPressed } = this.state;
+    const { actions } = this.props;
+    if (downPressed && upPressed) {
+      // actions.sendController("down_release");
+      actions.sendController("up_press")();
+    }
+    if (downPressed && !upPressed) {
+      actions.sendController("down_release")();
+    }
+    this.setState({ downPressed: false });
+  }
+
   render() {
-    const { actions, state } = this.props;
+    const { state } = this.props;
     return (
       <Container>
         <OuterPlayer>
@@ -64,10 +138,10 @@ class Controller extends React.Component<Props> {
         <div>
           <Button
             disabled={!state.playerNumber}
-            onTouchStart={actions.sendController("up_press")}
-            onPointerDown={actions.sendController("up_press")}
-            onTouchEnd={actions.sendController("up_release")}
-            onPointerUp={actions.sendController("up_release")}
+            onTouchStart={this.handlePressUp}
+            onPointerDown={this.handlePressUp}
+            onTouchEnd={this.handleReleaseUp}
+            onPointerUp={this.handleReleaseUp}
           >
             <IconArrow />
           </Button>
@@ -75,10 +149,10 @@ class Controller extends React.Component<Props> {
         <div>
           <Button
             disabled={!state.playerNumber}
-            onTouchStart={actions.sendController("down_press")}
-            onPointerDown={actions.sendController("down_press")}
-            onTouchEnd={actions.sendController("down_release")}
-            onPointerUp={actions.sendController("down_release")}
+            onTouchStart={this.handlePressDown}
+            onPointerDown={this.handlePressDown}
+            onTouchEnd={this.handleReleaseDown}
+            onPointerUp={this.handleReleaseDown}
           >
             <IconArrowDown />
           </Button>
