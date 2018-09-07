@@ -42,9 +42,9 @@ class PongGame extends React.Component<ConnectProps> {
     this.pong.on("bounce", () => playSound(246.94, 10, 0.6));
     this.pong.on("hit", () => playSound(493.88, 10, 0.7));
     this.pong.on("point", (e: any) => {
-      if (e.score === 1) {
+      if (e.score === 11) {
         const teamName = e.team === "a" ? "BLUE" : "RED";
-        this.pong.winAndCountdown(`${teamName} TEAM WINS!!`, 7);
+        this.pong.winAndCountdown(`${teamName} TEAM WINS!!`, 10);
       }
       playSound(90.61, 400, 0.35);
     });
