@@ -17,4 +17,6 @@ interface Pong {
   start: () => void;
   on: (event: string, cb: (event: Event) => void) => void;
   reset: () => void;
+  pause: () => void;
+  resume: () => void;
 }

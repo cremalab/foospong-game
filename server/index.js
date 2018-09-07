@@ -5,7 +5,7 @@ const Nes = require("nes");
 
 // Create a server with a host and port
 const server = Hapi.server({
-  port: 8000
+  port: 8000,
 });
 
 const init = async () => {
@@ -17,13 +17,14 @@ const init = async () => {
       // this is where client.message calls are received.
       onMessage: async function(socket, message) {
         console.log("message from a subscribed client", message);
-      }
-    }
+      },
+    },
   });
 
   server.subscription("/player/{playerNumber}");
-
   server.subscription("/startGame");
+  server.subscription("/pauseGame");
+  server.subscription("/resumeGame");
 
   server.route({
     method: ["PUT", "POST"],
@@ -35,8 +36,8 @@ const init = async () => {
           request.payload
         );
         return "Player Update";
-      }
-    }
+      },
+    },
   });
 
   server.route({
@@ -46,8 +47,30 @@ const init = async () => {
       handler: (request, h) => {
         server.publish(`/startGame`, {});
         return "Start Game";
-      }
-    }
+      },
+    },
+  });
+
+  server.route({
+    method: ["PUT", "POST"],
+    path: "/pauseGame",
+    config: {
+      handler: (request, h) => {
+        server.publish(`/pauseGame`, {});
+        return "Pause Game";
+      },
+    },
+  });
+
+  server.route({
+    method: ["PUT", "POST"],
+    path: "/resumeGame",
+    config: {
+      handler: (request, h) => {
+        server.publish(`/resumeGame`, {});
+        return "Resume Game";
+      },
+    },
   });
 
   await server.start();

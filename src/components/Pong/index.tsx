@@ -42,6 +42,14 @@ class PongGame extends React.Component<ConnectProps> {
       this.pong.start();
     });
 
+    client.subscribe("/pauseGame", () => {
+      this.pong.pause();
+    });
+
+    client.subscribe("/resumeGame", () => {
+      this.pong.resume();
+    });
+
     this.pong.on("bounce", () => playSound(246.94));
     this.pong.on("hit", () => playSound(493.88));
     this.pong.on("point", () => playSound(90.61, 400));

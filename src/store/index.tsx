@@ -9,11 +9,15 @@ const { Provider, Consumer } = Context;
 export interface State {
   readonly connected: boolean;
   readonly playerNumber?: string;
+  readonly isPlaying: boolean;
+  readonly isPaused: boolean;
 }
 
 class Store extends Component<any, State> {
   readonly state: State = {
-    connected: false
+    connected: false,
+    isPlaying: false,
+    isPaused: false,
   };
 
   actions = {
@@ -22,19 +26,40 @@ class Store extends Component<any, State> {
         method: "POST",
         path: `/player/${this.state.playerNumber}`,
         payload: {
-          event
-        }
+          event,
+        },
       }),
+
     setPlayer: (playerNumber: string) => {
       this.setState({
-        playerNumber
+        playerNumber,
       });
     },
+
+    setPlaying: (isPlaying: boolean) => {
+      this.setState({ isPlaying });
+    },
+
+    setPaused: (isPaused: boolean) => {
+      this.setState({ isPaused });
+    },
+
     startGame: () =>
       this.client.request({
         method: "POST",
-        path: `/startGame`
-      })
+        path: `/startGame`,
+      }),
+
+    pauseGame: () =>
+      this.client.request({
+        method: "POST",
+        path: `/pauseGame`,
+      }),
+    resumeGame: () =>
+      this.client.request({
+        method: "POST",
+        path: `/resumeGame`,
+      }),
   };
 
   client = new Nes.Client(`ws://${window.location.hostname}:8000/`);
@@ -44,7 +69,7 @@ class Store extends Component<any, State> {
       .connect()
       .then(() => {
         this.setState({
-          connected: true
+          connected: true,
         });
       })
       .catch(e => console.error(e));
@@ -56,7 +81,7 @@ class Store extends Component<any, State> {
         value={{
           state: this.state,
           actions: this.actions,
-          client: this.client
+          client: this.client,
         }}
       >
         {this.props.children}
