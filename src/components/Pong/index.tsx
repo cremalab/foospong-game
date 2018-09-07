@@ -36,15 +36,18 @@ class PongGame extends React.Component<ConnectProps> {
     });
 
     client.subscribe("/startGame", () => {
-      if (this.pong.reset) {
-        this.pong.reset();
-      }
       this.pong.start();
     });
 
-    this.pong.on("bounce", () => playSound(246.94));
-    this.pong.on("hit", () => playSound(493.88));
-    this.pong.on("point", () => playSound(90.61, 400));
+    this.pong.on("bounce", () => playSound(246.94, 10, 0.6));
+    this.pong.on("hit", () => playSound(493.88, 10, 0.7));
+    this.pong.on("point", (e: any) => {
+      if (e.score === 11) {
+        const teamName = e.team === "a" ? "BLUE" : "RED";
+        this.pong.winAndCountdown(`${teamName} TEAM WINS!!`, 10);
+      }
+      playSound(90.61, 400, 0.35);
+    });
   }
 
   handler = playerNumber => (update, flags) => {

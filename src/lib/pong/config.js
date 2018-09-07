@@ -8,7 +8,7 @@ module.exports = {
   TEAM_B_COLOR: 0xff3838,
   SCORES_MARGIN: { x: 40, y: 30 },
   TEXT_STYLE: {
-    font: "60px Helvetica, Arial, sans-serif",
+    font: "80px Helvetica, Arial, sans-serif",
     fill: "#eee",
     align: "center",
   },

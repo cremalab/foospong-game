@@ -17,4 +17,7 @@ interface Pong {
   start: () => void;
   on: (event: string, cb: (event: Event) => void) => void;
   reset: () => void;
+  restart: () => void;
+  endScreen: { hide: () => void; };
+  winAndCountdown: (message:string, countdown: number) => void;
 }
