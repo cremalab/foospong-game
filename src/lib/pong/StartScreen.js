@@ -4,7 +4,7 @@ var keycode = require('keycode'),
     StartScreen,
 
 StartScreen = function () {
-    this.message = 'PRESS ENTER';
+    this.message = 'PRESS PLAY';
     MessageScreen.apply(this, arguments);
 };
 

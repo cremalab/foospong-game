@@ -19,4 +19,7 @@ interface Pong {
   reset: () => void;
   pause: () => void;
   resume: () => void;
+  restart: () => void;
+  endScreen: { hide: () => void };
+  winAndCountdown: (message: string, countdown: number) => void;
 }

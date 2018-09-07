@@ -29,8 +29,7 @@ Pong = function(wrapper) {
   this.loop = new Loop();
   this.balls = [];
   this.arena = new Arena(this);
-  this.pauseScreen = new PauseScreen(this);
-  this.endScreen = new MessageScreen(this);
+
   this.hits = 0;
   this.totalHits = 0;
   this.bounces = 0;
@@ -49,6 +48,8 @@ Pong = function(wrapper) {
     this.players[p].amtRight =
       i / playerKeys.length + 1 / (playerKeys.length * 2);
   });
+  this.pauseScreen = new PauseScreen(this);
+  this.endScreen = new MessageScreen(this);
   this.startScreen = new StartScreen(this);
   this.resize();
   this.bind();
@@ -110,6 +111,9 @@ Pong.prototype.addBall = function() {
 };
 
 Pong.prototype.start = function() {
+  if (this.started && !this.won){
+    return console.log("GAME IS ALREADY STARTED");
+  }
   this.addBall();
   this.loop.play();
   this.started = true;
@@ -117,7 +121,7 @@ Pong.prototype.start = function() {
 };
 
 Pong.prototype.pause = function() {
-  if (this.started) {
+  if (this.started && !this.won) {
     this.emit("pause", this);
     this.loop.stop();
   }
@@ -181,15 +185,17 @@ Pong.prototype.restart = function(addBall, dir) {
 
   this.resetBalls();
 
-  setTimeout(() => {
-    if (addBall) {
-      ball = this.addBall();
-      ball.rebound(dir || 0);
-    }
-
-    this.emit("restart", this);
-    this.refresh();
-  }, 2000);
+  if (!this.won){
+    setTimeout(() => {
+      if (addBall) {
+        ball = this.addBall();
+        ball.rebound(dir || 0);
+      }
+      
+      this.emit("restart", this);
+      this.refresh();
+    }, 2000);
+  }
 };
 
 Pong.prototype.reset = function() {
@@ -281,4 +287,20 @@ Pong.prototype.win = function(message) {
   this.won = true;
 };
 
+Pong.prototype.winAndCountdown = function(message, countdownSeconds) {
+  this.win(message);
+  for (let i = 1; i < (countdownSeconds + 1); i++) {
+    setTimeout(() => {
+      this.win(`NEW GAME IN ${countdownSeconds + 1 - i}`);
+    }, i * 1000 + 2000);
+  }
+  setTimeout(() => {
+    this.endScreen.hide();
+    this.reset();
+    this.won = false;
+    this.loop.play();
+    this.endScreen.hide();
+    this.start();
+  }, 1000 * countdownSeconds + 3000);
+}
 module.exports = Pong;

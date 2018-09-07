@@ -1,4 +1,4 @@
-const play = (frequencyValue: number, timeout: number = 10) => {
+const play = (frequencyValue: number, timeout: number = 10, gain: number = 0.5) => {
   const context = new AudioContext();
   const fade = 0.2;
   const oscillator = context.createOscillator();
@@ -9,7 +9,7 @@ const play = (frequencyValue: number, timeout: number = 10) => {
   oscillator.frequency.value = frequencyValue;
 
   gainNode.connect(context.destination);
-  gainNode.gain.setValueAtTime(0.5, context.currentTime);
+  gainNode.gain.setValueAtTime(gain, context.currentTime);
   oscillator.start();
   setTimeout(() => {
     gainNode.gain.exponentialRampToValueAtTime(
