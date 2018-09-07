@@ -40,6 +40,11 @@ class Controller extends React.Component {
 
         <h3>RULES</h3>
         <ol>
+          <li>
+            <a href="#" style={{ color: "yellow" }}>
+              Who cares, just let me play.
+            </a>
+          </li>
           <li>The first team to 11 points wins</li>
           <li>
             Team Blue’s goal is on the right, Team Red’s goal is on the left
