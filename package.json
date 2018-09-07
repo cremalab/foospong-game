@@ -28,7 +28,7 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "server": "nodemon server",
-    "client": "PORT=80 REACT_APP_SOCKET_URL=ws://localhost:8000/ react-scripts-ts start",
+    "client": "PORT=3000 REACT_APP_SOCKET_URL=ws://localhost:8000/ react-scripts-ts start",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "devDependencies": {
