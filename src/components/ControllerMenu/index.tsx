@@ -63,6 +63,7 @@ class ControllerMenu extends React.Component<ConnectProps> {
             <Button
               onClick={() => {
                 actions.resumeGame();
+                location.href = "#";
               }}
             >
               Resume Game
